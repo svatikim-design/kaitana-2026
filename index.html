@@ -2110,16 +2110,38 @@ footer .bsd { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 14px; l
     <h2 class="section-title">מחירי הקייטנה</h2>
     <p class="section-sub">מחיר אטרקטיבי לקייטנה מלאה בחוויות, פעילויות ואוטובוס מאורגן</p>
 
+    <p style="font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--red)">קייטנה רגילה 🚌</p>
     <div class="price-grid">
       <div class="price-card">
         <div class="price-label">מחיר רגיל</div>
-        <div class="price-num">2,200<small>₪</small></div>
+        <div class="price-num">2,300<small>₪</small></div>
         <div class="price-note">לקייטנה מלאה</div>
       </div>
       <div class="price-card featured">
         <span class="badge">🎁 הנחה מוקדמת</span>
         <div class="price-label">תושבי שיכון ותיקים / נווה רמז</div>
-        <div class="price-num">2,050<small>₪</small></div>
+        <div class="price-num">2,150<small>₪</small></div>
+        <div class="savings">חיסכון 150 ₪</div>
+        <div class="price-note">הרשמה עד 10/6/2026</div>
+      </div>
+      <div class="price-card">
+        <div class="price-label">הנחת אחים</div>
+        <div class="price-num" style="font-size:2.4rem;color:var(--green-dark);">-5%</div>
+        <div class="price-note">לכל ילד נוסף מאותה המשפחה</div>
+      </div>
+    </div>
+
+    <p style="font-weight:700;font-size:1rem;margin-top:24px;margin-bottom:8px;color:var(--red)">בוגרים אקסטרים ⚡</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-label">מחיר רגיל</div>
+        <div class="price-num">2,450<small>₪</small></div>
+        <div class="price-note">לקייטנה מלאה</div>
+      </div>
+      <div class="price-card featured">
+        <span class="badge">🎁 הנחה מוקדמת</span>
+        <div class="price-label">תושבי שיכון ותיקים / נווה רמז</div>
+        <div class="price-num">2,300<small>₪</small></div>
         <div class="savings">חיסכון 150 ₪</div>
         <div class="price-note">הרשמה עד 10/6/2026</div>
       </div>
@@ -3011,13 +3033,16 @@ document.getElementById('chkPhone').addEventListener('change', (e) => {
 function calcPrice() {
   const resident = document.querySelector('input[name="resident"]:checked');
   const sibling = document.querySelector('input[name="sibling"]:checked');
-  let base = 2300;
+  const selectedProg = document.querySelector('.program-card.selected');
+  const isVeterans = selectedProg && selectedProg.dataset.prog === 'veterans';
+
+  let base = isVeterans ? 2450 : 2300;
   let breakdown = [];
   const now = new Date();
   const deadline = new Date('2026-06-10');
 
   if(resident && resident.value === 'כן' && now <= deadline) {
-    base = 2150;
+    base = isVeterans ? 2300 : 2150;
     breakdown.push('הנחת תושבים מוקדמת (-150₪)');
   } else if(resident && resident.value === 'כן' && now > deadline) {
     breakdown.push('* תושבי השכונה - הרישום לאחר 10/6');
