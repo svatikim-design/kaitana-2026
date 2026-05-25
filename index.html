@@ -3154,71 +3154,60 @@ function submitForm() {
   launchConfetti();
 }
 
-// ===== AIRTABLE INTEGRATION =====
+// ===== FORMSPREE INTEGRATION =====
 async function saveToAirtable(data, price) {
-  const AIRTABLE_TOKEN = 'patQLm07ycA7eXjAB.7652d19123c5f3759ffff039c74d940b5a9d0716f65aa0e290d1cf95782d13ee';
-  const BASE_ID = 'appmgg6gJYBE3yGfj';
-  const TABLE_NAME = 'רישומים';
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzdwaner';
 
-  const fields = {
-    'תוכנית':           data.program,
-    'תאריכים':          data.programDates,
-    'שם פרטי ילד':      data.childFirst,
-    'שם משפחה ילד':     data.childLast,
-    'מין':              data.gender,
-    'כיתה':             data.grade,
-    'תאריך לידה':       data.birthdate,
-    'בית ספר':          data.school,
-    'מידת חולצה':       data.shirtSize || '',
-    'כתובת':            data.address,
-    'תושב שכונה':       data.resident,
-    'אחים בקייטנה':     data.sibling,
-    'שם אבא':           data.dadFirst,
-    'שם אמא':           data.momFirst,
-    'טלפון אבא':        data.dadPhone,
-    'טלפון אמא':        data.momPhone,
-    'מייל אבא':         data.dadEmail || '',
-    'מייל אמא':         data.momEmail || '',
-    'איש קשר חירום':    data.emergency || '',
-    'בריאות':           data.health,
-    'פירוט בריאות':     data.healthDetail || '',
-    'אישור צילום':      data.photo,
-    'חמגשית':           data.lunch,
-    'קבלת עדכונים':     data.updates,
-    'הערות':            data.notes || '',
-    'עלות':             price.total,
-    'פירוט מחיר':       price.breakdown,
-    'תאריך רישום':      data.signedAt,
-    'סטטוס':            'חדש'
-  };
+  const payload = new FormData();
+  payload.append('תוכנית',          data.program);
+  payload.append('תאריכים',         data.programDates);
+  payload.append('שם פרטי ילד',     data.childFirst);
+  payload.append('שם משפחה ילד',    data.childLast);
+  payload.append('מין',             data.gender);
+  payload.append('כיתה',            data.grade);
+  payload.append('תאריך לידה',      data.birthdate);
+  payload.append('בית ספר',         data.school);
+  payload.append('מידת חולצה',      data.shirtSize || '');
+  payload.append('כתובת',           data.address);
+  payload.append('תושב שכונה',      data.resident);
+  payload.append('אחים בקייטנה',    data.sibling);
+  payload.append('שם אבא',          data.dadFirst);
+  payload.append('שם אמא',          data.momFirst);
+  payload.append('טלפון אבא',       data.dadPhone);
+  payload.append('טלפון אמא',       data.momPhone);
+  payload.append('מייל אבא',        data.dadEmail || '');
+  payload.append('מייל אמא',        data.momEmail || '');
+  payload.append('איש קשר חירום',   data.emergency || '');
+  payload.append('בריאות',          data.health);
+  payload.append('פירוט בריאות',    data.healthDetail || '');
+  payload.append('אישור צילום',     data.photo);
+  payload.append('חמגשית',          data.lunch);
+  payload.append('קבלת עדכונים',    data.updates);
+  payload.append('הערות',           data.notes || '');
+  payload.append('עלות',            price.total + ' ₪');
+  payload.append('פירוט מחיר',      price.breakdown);
+  payload.append('תאריך רישום',     data.signedAt);
+  payload.append('_subject',        'רישום חדש לקייטנה — ' + data.childFirst + ' ' + data.childLast);
 
   try {
-    const response = await fetch(
-      `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE_NAME)}`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ fields })
-      }
-    );
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      body: payload,
+      headers: { 'Accept': 'application/json' }
+    });
 
     if (response.ok) {
-      console.log('✅ נשמר ב-Airtable בהצלחה');
-      // הצג אינדיקטור הצלחה קטן
+      console.log('✅ נשמר ב-Formspree בהצלחה');
       const indicator = document.createElement('div');
       indicator.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#7FB342;color:white;padding:10px 20px;border-radius:20px;font-family:Rubik,sans-serif;font-size:14px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2)';
       indicator.textContent = '✅ הרישום נשמר במסד הנתונים';
       document.body.appendChild(indicator);
       setTimeout(() => indicator.remove(), 4000);
     } else {
-      const err = await response.json();
-      console.warn('⚠️ שגיאה ב-Airtable:', err);
+      console.warn('⚠️ שגיאה ב-Formspree:', await response.text());
     }
   } catch (e) {
-    console.warn('⚠️ לא ניתן להתחבר ל-Airtable:', e.message);
+    console.warn('⚠️ לא ניתן להתחבר ל-Formspree:', e.message);
   }
 }
 
