@@ -2598,7 +2598,7 @@ footer .bsd { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 14px; l
 
         <h3 class="payment-title">💳 לתשלום הקייטנה</h3>
 
-        <a href="https://pay.sumit.co.il/wz32x/evtiq9/c/payment/" target="_blank" class="pay-button-main">
+        <a id="payBtn" href="https://pay.sumit.co.il/wz32x/evtiq9/c/payment/" target="_blank" class="pay-button-main">
           <span class="pay-icon-big">💳</span>
           <span class="pay-text">
             <strong>תשלום מאובטח באשראי / ביט</strong>
@@ -3115,6 +3115,9 @@ function submitForm() {
     data.gender + ' · עולה לכיתה ' + data.grade + ' · ב' + data.school;
   document.getElementById('sumPrice').textContent = price.total.toLocaleString() + ' ₪';
   document.getElementById('sumBreakdown').textContent = price.breakdown;
+  // עדכון קישור סאמיט עם המחיר המחושב (כולל הנחות)
+  document.getElementById('payBtn').href =
+    'https://pay.sumit.co.il/wz32x/evtiq9/c/payment/?price=' + price.total;
 
   // Build WhatsApp message
   const msg = [
