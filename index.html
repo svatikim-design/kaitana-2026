@@ -2117,13 +2117,6 @@ footer .bsd { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 14px; l
         <div class="price-num">2,100<small>₪</small></div>
         <div class="price-note">לקייטנה מלאה</div>
       </div>
-      <div class="price-card featured">
-        <span class="badge">🎁 הנחה מוקדמת</span>
-        <div class="price-label">תושבי שיכון ותיקים / נווה רמז</div>
-        <div class="price-num">1,950<small>₪</small></div>
-        <div class="savings">חיסכון 150 ₪</div>
-        <div class="price-note">הרשמה עד 10/6/2026</div>
-      </div>
       <div class="price-card">
         <div class="price-label">הנחת אחים</div>
         <div class="price-num" style="font-size:2.4rem;color:var(--green-dark);">-5%</div>
@@ -2137,13 +2130,6 @@ footer .bsd { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 14px; l
         <div class="price-label">מחיר רגיל</div>
         <div class="price-num">2,450<small>₪</small></div>
         <div class="price-note">לקייטנה מלאה</div>
-      </div>
-      <div class="price-card featured">
-        <span class="badge">🎁 הנחה מוקדמת</span>
-        <div class="price-label">תושבי שיכון ותיקים / נווה רמז</div>
-        <div class="price-num">2,300<small>₪</small></div>
-        <div class="savings">חיסכון 150 ₪</div>
-        <div class="price-note">הרשמה עד 10/6/2026</div>
       </div>
       <div class="price-card">
         <div class="price-label">הנחת אחים</div>
@@ -2273,7 +2259,7 @@ footer .bsd { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 14px; l
                 <input type="radio" name="resident" id="resNo" value="לא">
                 <label for="resNo">לא</label>
               </div>
-              <p class="hint">תושבי שיכון ותיקים / נווה רמז שנרשמים עד 10/6 — זכאים להנחת 150 ₪</p>
+              <p class="hint">שאלה לצורך רישום בלבד</p>
             </div>
           </div>
 
@@ -2598,11 +2584,14 @@ footer .bsd { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 14px; l
 
         <h3 class="payment-title">💳 לתשלום הקייטנה</h3>
 
+        <div style="background:#fff3cd;border:2px solid #ffc107;border-radius:12px;padding:12px 16px;margin-bottom:12px;text-align:center;font-size:1rem;color:#856404;">
+          💡 <strong>בדף התשלום — הזינו סכום: <span id="payAmountNote" style="font-size:1.15rem;color:#d63031;">⬆ ראו למעלה</span></strong>
+        </div>
         <a id="payBtn" href="https://pay.sumit.co.il/wz32x/evtiq9/c/payment/" target="_blank" class="pay-button-main">
           <span class="pay-icon-big">💳</span>
           <span class="pay-text">
             <strong>תשלום מאובטח באשראי / ביט</strong>
-            <small>לחצו כאן לתשלום ישיר ומהיר</small>
+            <small id="payBtnAmount">לחצו כאן לתשלום ישיר ומהיר</small>
           </span>
           <span class="pay-arrow">←</span>
         </a>
@@ -3038,15 +3027,6 @@ function calcPrice() {
 
   let base = isVeterans ? 2450 : 2100;
   let breakdown = [];
-  const now = new Date();
-  const deadline = new Date('2026-06-10');
-
-  if(resident && resident.value === 'כן' && now <= deadline) {
-    base = isVeterans ? 2300 : 1950;
-    breakdown.push('הנחת תושבים מוקדמת (-150₪)');
-  } else if(resident && resident.value === 'כן' && now > deadline) {
-    breakdown.push('* תושבי השכונה - הרישום לאחר 10/6');
-  }
   if(sibling && sibling.value === 'כן') {
     const d = Math.round(base * 0.05);
     base = base - d;
@@ -3057,8 +3037,19 @@ function calcPrice() {
 
 // ===== SUBMIT =====
 function submitForm() {
-  if(!validateStep(3)) {
-    // Scroll to first error
+  // וודא את כל השלבים לפני שליחה
+  const v0 = validateStep(0);
+  const v1 = validateStep(1);
+  const v2 = validateStep(2);
+  const v3 = validateStep(3);
+  if(!v0 || !v1 || !v2 || !v3) {
+    // חזור לשלב הראשון עם שגיאה
+    if(!v0) {
+      document.getElementById('step'+currentStep).classList.remove('active');
+      currentStep = 0;
+      document.getElementById('step0').classList.add('active');
+      updateProgress();
+    }
     const err = document.querySelector('.field-error[style*="block"]');
     if(err) err.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
@@ -3115,7 +3106,10 @@ function submitForm() {
     data.gender + ' · עולה לכיתה ' + data.grade + ' · ב' + data.school;
   document.getElementById('sumPrice').textContent = price.total.toLocaleString() + ' ₪';
   document.getElementById('sumBreakdown').textContent = price.breakdown;
-  // עדכון קישור סאמיט עם המחיר המחושב (כולל הנחות)
+  // הצגת הסכום על כפתור התשלום ובהוראה
+  const amountStr = price.total.toLocaleString() + ' ₪';
+  document.getElementById('payBtnAmount').textContent = 'סכום לתשלום: ' + amountStr;
+  document.getElementById('payAmountNote').textContent = amountStr;
   document.getElementById('payBtn').href =
     'https://pay.sumit.co.il/wz32x/evtiq9/c/payment/?price=' + price.total;
 
