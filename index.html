@@ -960,6 +960,51 @@ section.block {
 }
 
 /* ===================
+   SCHEDULE SECTION
+   =================== */
+.schedule-section {
+  background: linear-gradient(180deg, #FFF0CC 0%, var(--cream) 100%);
+  padding: 60px 20px;
+}
+.schedule-block { margin-top: 36px; }
+.schedule-block-head {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 18px; flex-wrap: wrap;
+}
+.schedule-block-head h3 {
+  font-family: 'Rubik', sans-serif;
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  color: var(--red-deep);
+}
+.schedule-block-head span {
+  background: var(--white); border: 2px solid var(--red);
+  color: var(--red); font-weight: 700; font-size: .82rem;
+  padding: 4px 12px; border-radius: 14px;
+}
+.sched-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+.sched-card {
+  background: white;
+  border-radius: 18px;
+  padding: 16px 10px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border-bottom: 6px solid var(--sched-color, var(--red));
+  transition: transform 0.2s;
+}
+.sched-card:hover { transform: translateY(-4px); }
+.sched-card .sched-day { font-size: .78rem; font-weight: 700; color: var(--text-soft); }
+.sched-card .sched-date { font-size: .9rem; font-weight: 800; color: var(--sched-color, var(--red)); margin-bottom: 6px; }
+.sched-card .sched-name { font-size: .95rem; font-weight: 800; color: var(--text); line-height: 1.25; }
+.schedule-footnote { text-align: center; margin-top: 28px; font-size: .85rem; color: var(--text-soft); font-weight: 600; }
+@media (max-width: 600px) {
+  .sched-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===================
    ROAD CTA
    =================== */
 .road-cta {
@@ -2137,6 +2182,65 @@ footer .bsd { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 14px; l
         <div class="price-note">לכל ילד נוסף מאותה המשפחה</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCHEDULE / LOZ SECTION
+     ============================================================ -->
+<section class="schedule-section" id="schedule">
+  <div class="container" style="text-align:center;">
+    <span class="section-label">📅 הלו"ז המטורף</span>
+    <h2 class="section-title">מה מצפה לנו הקיץ?</h2>
+    <p class="section-sub">כל יום הפתעה חדשה — אטרקציות, טיולים וחוויות בלי סוף</p>
+
+    <!-- Regular program schedule -->
+    <div class="schedule-block">
+      <div class="schedule-block-head">
+        <h3>🚌 על גלגלים</h3>
+        <span>2/8 – 17/8</span>
+      </div>
+      <div class="sched-grid">
+        <div class="sched-card" style="--sched-color:#C8202E"><div class="sched-day">ראשון</div><div class="sched-date">2/8</div><div class="sched-name">עיר הילדים חולון</div></div>
+        <div class="sched-card" style="--sched-color:#1E88C7"><div class="sched-day">שני</div><div class="sched-date">3/8</div><div class="sched-name">ספארי</div></div>
+        <div class="sched-card" style="--sched-color:#E2851E"><div class="sched-day">שלישי</div><div class="sched-date">4/8</div><div class="sched-name">קרקס פלורנטין</div></div>
+        <div class="sched-card" style="--sched-color:#5A8A2C"><div class="sched-day">רביעי</div><div class="sched-date">5/8</div><div class="sched-name">ויפארק</div></div>
+        <div class="sched-card" style="--sched-color:#6B4FA0"><div class="sched-day">חמישי</div><div class="sched-date">6/8</div><div class="sched-name">מאסטר שף</div></div>
+
+        <div class="sched-card" style="--sched-color:#C8202E"><div class="sched-day">ראשון</div><div class="sched-date">9/8</div><div class="sched-name">שייט</div></div>
+        <div class="sched-card" style="--sched-color:#1E88C7"><div class="sched-day">שני</div><div class="sched-date">10/8</div><div class="sched-name">לונה פארק</div></div>
+        <div class="sched-card" style="--sched-color:#E2851E"><div class="sched-day">שלישי</div><div class="sched-date">11/8</div><div class="sched-name">היכל הקרח</div></div>
+        <div class="sched-card" style="--sched-color:#5A8A2C"><div class="sched-day">רביעי</div><div class="sched-date">12/8</div><div class="sched-name">ירושלים והכותל</div></div>
+        <div class="sched-card" style="--sched-color:#6B4FA0"><div class="sched-day">חמישי</div><div class="sched-date">13/8</div><div class="sched-name">תערוכת בלונים</div></div>
+
+        <div class="sched-card" style="--sched-color:#C8202E"><div class="sched-day">ראשון</div><div class="sched-date">16/8</div><div class="sched-name">וייט פול</div></div>
+        <div class="sched-card" style="--sched-color:#1E88C7"><div class="sched-day">שני</div><div class="sched-date">17/8</div><div class="sched-name">🎉 מסיבת סיום</div></div>
+      </div>
+    </div>
+
+    <!-- Veterans / Extreme program schedule -->
+    <div class="schedule-block">
+      <div class="schedule-block-head">
+        <h3>⚡ בוגרים אקסטרים</h3>
+        <span>26/7 – 6/8</span>
+      </div>
+      <div class="sched-grid">
+        <div class="sched-card" style="--sched-color:#C8202E"><div class="sched-day">ראשון</div><div class="sched-date">26/7</div><div class="sched-name">אי ג'אמפ + לייזר טאג</div></div>
+        <div class="sched-card" style="--sched-color:#1E88C7"><div class="sched-day">שני</div><div class="sched-date">27/7</div><div class="sched-name">טורנדו</div></div>
+        <div class="sched-card" style="--sched-color:#E2851E"><div class="sched-day">שלישי</div><div class="sched-date">28/7</div><div class="sched-name">סנפלינג</div></div>
+        <div class="sched-card" style="--sched-color:#5A8A2C"><div class="sched-day">רביעי</div><div class="sched-date">29/7</div><div class="sched-name">החלקה על הקרח</div></div>
+        <div class="sched-card" style="--sched-color:#6B4FA0"><div class="sched-day">חמישי</div><div class="sched-date">30/7</div><div class="sched-name">תעלומה בירושלים</div></div>
+
+        <div class="sched-card" style="--sched-color:#C8202E"><div class="sched-day">ראשון</div><div class="sched-date">2/8</div><div class="sched-name">שייט</div></div>
+        <div class="sched-card" style="--sched-color:#1E88C7"><div class="sched-day">שני</div><div class="sched-date">3/8</div><div class="sched-name">ווטר טאג</div></div>
+        <div class="sched-card" style="--sched-color:#E2851E"><div class="sched-day">שלישי</div><div class="sched-date">4/8</div><div class="sched-name">פארק חבלים</div></div>
+        <div class="sched-card" style="--sched-color:#5A8A2C"><div class="sched-day">רביעי</div><div class="sched-date">5/8</div><div class="sched-name">ג'יפים</div></div>
+        <div class="sched-card" style="--sched-color:#6B4FA0"><div class="sched-day">חמישי</div><div class="sched-date">6/8</div><div class="sched-name">מסתורין בכפר</div></div>
+      </div>
+      <p style="margin-top:14px;font-weight:700;color:var(--text-soft);font-size:.9rem;">וגם: תוכניות ערב • אש לילה • תוכניות חברה ערכיות • צוות הדרכה יוצא מן הכלל</p>
+    </div>
+
+    <p class="schedule-footnote">⚠️ התוכנית נתונה לשינויים</p>
   </div>
 </section>
 
